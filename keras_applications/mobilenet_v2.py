@@ -79,7 +79,7 @@ from __future__ import division
 import os
 import warnings
 import numpy as np
-from tensorflow.keras import backend, layers, models, keras_utils
+from tensorflow.keras import backend, layers, models, utils
 from . import correct_pad
 from . import get_submodules_from_kwargs
 from . import imagenet_utils
@@ -200,7 +200,7 @@ def MobileNetV2(input_shape=None,
         except ValueError:
             try:
                 is_input_t_tensor = backend.is_keras_tensor(
-                    keras_utils.get_source_inputs(input_tensor))
+                    utils.get_source_inputs(input_tensor))
             except ValueError:
                 raise ValueError('input_tensor: ', input_tensor,
                                  'is not type input_tensor')
@@ -386,7 +386,7 @@ def MobileNetV2(input_shape=None,
     # Ensure that the model takes into account
     # any potential predecessors of `input_tensor`.
     if input_tensor is not None:
-        inputs = keras_utils.get_source_inputs(input_tensor)
+        inputs = utils.get_source_inputs(input_tensor)
     else:
         inputs = img_input
 
@@ -400,13 +400,13 @@ def MobileNetV2(input_shape=None,
             model_name = ('mobilenet_v2_weights_tf_dim_ordering_tf_kernels_' +
                           str(alpha) + '_' + str(rows) + '.h5')
             weight_path = BASE_WEIGHT_PATH + model_name
-            weights_path = keras_utils.get_file(
+            weights_path = utils.get_file(
                 model_name, weight_path, cache_subdir='models')
         else:
             model_name = ('mobilenet_v2_weights_tf_dim_ordering_tf_kernels_' +
                           str(alpha) + '_' + str(rows) + '_no_top' + '.h5')
             weight_path = BASE_WEIGHT_PATH + model_name
-            weights_path = keras_utils.get_file(
+            weights_path = utils.get_file(
                 model_name, weight_path, cache_subdir='models')
         model.load_weights(weights_path)
     elif weights is not None:
