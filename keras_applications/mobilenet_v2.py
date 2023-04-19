@@ -79,7 +79,7 @@ from __future__ import division
 import os
 import warnings
 import numpy as np
-
+from tensorflow.keras import backend, layers, models
 from . import correct_pad
 from . import get_submodules_from_kwargs
 from . import imagenet_utils
@@ -89,11 +89,6 @@ from .imagenet_utils import _obtain_input_shape
 # TODO Change path to v1.1
 BASE_WEIGHT_PATH = ('https://github.com/JonathanCMitchell/mobilenet_v2_keras/'
                     'releases/download/v1.1/')
-
-backend = None
-layers = None
-models = None
-keras_utils = None
 
 
 def preprocess_input(x, **kwargs):
@@ -186,8 +181,6 @@ def MobileNetV2(input_shape=None,
             or invalid input shape or invalid alpha, rows when
             weights='imagenet'
     """
-    global backend, layers, models, keras_utils
-    backend, layers, models, keras_utils = get_submodules_from_kwargs(kwargs)
 
     if not (weights in {'imagenet', None} or os.path.exists(weights)):
         raise ValueError('The `weights` argument should be either '
